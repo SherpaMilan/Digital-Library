@@ -1,0 +1,24 @@
+.navbar-brand {
+  background: rgb(70, 70, 170);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.navbar-brand a {
+  text-decoration: none;
+  color: white !important;
+  font-weight: bolder;
+}
+.main {
+  min-height: 81vh;
+}
+
+.hero-main-img {
+  background: rgba(0, 0, 0, 0.892);
+  padding: 2rem;
+  border-radius: 10px;
+}
