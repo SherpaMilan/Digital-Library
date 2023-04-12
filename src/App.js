@@ -15,16 +15,18 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase-config/firebaseConfig";
 import { useDispatch } from "react-redux";
 import { setUser } from "./pages/signup-signin/userSlice";
+import { autoLogin } from "./pages/signup-signin/userAction";
 
 function App() {
   const dispatch = useDispatch();
   onAuthStateChanged(auth, (user) => {
-    const obj = {
-      uid: user?.uid,
-      email: user?.email,
-      displayName: user?.displayName,
-    };
-    dispatch(setUser(obj));
+    // const obj = {
+    //   uid: user?.uid,
+    //   email: user?.email,
+    //   displayName: user?.displayName,
+    // };
+    // dispatch(setUser(obj));
+    dispatch(autoLogin(user.uid));
   });
 
   return (
@@ -51,10 +53,18 @@ function App() {
           }
         />
         <Route
+          path="history"
+          element={
+            <PrivateRoute>
+              <BurrowHistory />
+            </PrivateRoute>
+          }
+        />
+        <Route
           path="admin/books"
           element={
             <PrivateRoute>
-              <BookList />
+              <BookList admin={true} />
             </PrivateRoute>
           }
         />
@@ -62,7 +72,7 @@ function App() {
           path="admin/new"
           element={
             <PrivateRoute>
-              <NewBooks />
+              <NewBooks admin={true} />
             </PrivateRoute>
           }
         />

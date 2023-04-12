@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import { CustomInput } from "../../components/custom-input/CustomInput";
 import { DefaultLayout } from "../../components/layout/DefaultLayout";
 import { auth, db } from "../../firebase-config/firebaseConfig";
+import { autoLogin } from "./userAction";
 import { setUser } from "./userSlice";
 
 const SignIn = () => {
@@ -47,24 +48,7 @@ const SignIn = () => {
 
       const { uid } = user;
 
-      const userRef = doc(db, "users", uid);
-      const docSnap = await getDoc(userRef);
-
-      if (docSnap.exists()) {
-        const dbUser = docSnap.data();
-        console.log(docSnap.data());
-
-        const userObj = {
-          uid,
-          ...dbUser,
-        };
-        if (userObj.uid) {
-          dispatch(setUser(userObj));
-          toast.success("Sign up successfully, redirecting to dashboard");
-          return;
-        }
-      }
-      toast.error("Error, invalid login details!");
+      dispatch(autoLogin(uid));
     } catch (error) {
       toast.error(error.message);
     }

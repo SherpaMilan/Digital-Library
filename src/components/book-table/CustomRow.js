@@ -1,33 +1,33 @@
 import React from "react";
 import { Button, Col, Row } from "react-bootstrap";
+import { Ratings } from "../ratings/Ratings";
 import { useDispatch } from "react-redux";
-import { deleteBookAction } from "../../pages/books/bookAction";
+import { deleteBookActions } from "../../pages/books/bookAction";
 
-export const CustomRow = ({ book }) => {
+export const CustomRow = ({ thumbnail, title, summary, ratings, id }) => {
   const dispatch = useDispatch();
-  const handleDelete = (id) => {
-    if (window.confirm("Please confirm to delete")) {
-      dispatch(deleteBookAction(id));
+  const handleOnDelete = () => {
+    if (
+      window.confirm(
+        "Are you sure you want to delete this book? This action can not be reversed!"
+      )
+    ) {
+      // process for deleting
+
+      dispatch(deleteBookActions(id));
     }
   };
-
   return (
     <Row className="border p-2 py-4 rounded shadow-lg mb-3">
       <Col sm={2}>
-        <img src={book?.thumbnail} alt="" width="100%" />
+        <img src={thumbnail} alt="" width="100%" />
       </Col>
       <Col>
-        <h4>{book?.title}</h4>
-        <p>{book?.summary}</p>
+        <h4>{title}</h4>
+        <p>{summary}...</p>
         <div className="d-flex justify-content-between">
-          <div className="ratings text-warning">
-            <i className="fa-solid fa-star"></i>
-            <i className="fa-solid fa-star"></i>
-            <i className="fa-solid fa-star"></i>
-            <i className="fa-solid fa-star"></i>
-            <i className="fa-solid fa-star"></i>
-          </div>
-          <Button variant="danger" onClick={() => handleDelete(book.id)}>
+          <Ratings rating={ratings} />
+          <Button variant="danger" onClick={handleOnDelete}>
             Delete
           </Button>
         </div>

@@ -22,3 +22,42 @@
   padding: 2rem;
   border-radius: 10px;
 }
+
+.review-item {
+  /* display: flex;
+  justify-content: flex-start;
+  gap: 2rem; */
+}
+.avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: blue;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-weight: bolder;
+  font-size: 2rem;
+}
+
+.message {
+  /* max-width: calc(100%-150px); */
+}
+
+/* admin sidebar */
+.side-bar {
+  background: rgba(209, 209, 245, 0.193);
+  height: 100vh;
+}
+
+.side-bar a {
+  text-decoration: none;
+  font-weight: 600;
+  line-height: 2rem;
+}
+
+.side-bar ul {
+  list-style: none;
+}

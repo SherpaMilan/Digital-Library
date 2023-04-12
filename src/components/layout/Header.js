@@ -3,18 +3,21 @@ import React from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import { useSelector } from "react-redux";
-import DL from "../../assets/DL.jpg";
+import { useDispatch, useSelector } from "react-redux";
+
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { auth } from "../../firebase-config/firebaseConfig";
+import { setUser } from "../../pages/signup-signin/userSlice";
 
 export const Header = () => {
+  const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
 
   const handleOnLogout = () => {
     signOut(auth)
       .then(() => {
+        dispatch(setUser({}));
         toast.success("logout successfully");
       })
       .catch((error) => toast.error(error.message));
@@ -23,9 +26,7 @@ export const Header = () => {
     <Navbar bg="none" expand="md border">
       <Container>
         <Navbar.Brand>
-          <Link to="/">
-            <img className="d-block w-100" src={DL} alt="First slide" />
-          </Link>
+          <Link to="/">DL</Link>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
@@ -34,6 +35,9 @@ export const Header = () => {
 
             <Link to="/" title="Home">
               <i className="fa-solid fa-house"></i>
+            </Link>
+            <Link to="/dashboard" title="Home">
+              <i className="fa-solid fa-gauge"></i>
             </Link>
 
             {user?.uid ? (
