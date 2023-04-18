@@ -9,8 +9,9 @@ import {
 } from "firebase/firestore";
 import { toast } from "react-toastify";
 import { db } from "../../firebase-config/firebaseConfig";
-import { getBookSuccess, setSelectedBook } from "./bookSlice";
+import { getBookSuccess, setSelectedBook, setReviews } from "./bookSlice";
 
+// =========== books
 export const getBooksAction = () => async (dispatch) => {
   try {
     const q = query(collection(db, "books"));
@@ -106,6 +107,50 @@ export const deleteBookActions = (id) => async (dispatch) => {
 
     toast.success("The book has been deleted successfully");
     dispatch(getBooksAction());
+  } catch (error) {
+    toast.error(error.message);
+  }
+};
+
+// ============== reviews
+
+//add reviews to db
+export const addReviewsAction = (data) => async (dispatch) => {
+  try {
+    console.log(data);
+    const result = await addDoc(collection(db, "reviews"), data);
+
+    console.log(result);
+    if (result?.id) {
+      toast.success("your reviews has been added");
+      dispatch(getReviewsAction());
+      return;
+    }
+
+    toast.error("Unable to add revies, please try again later");
+  } catch (error) {
+    toast.error(error.message);
+  }
+};
+
+//get reviews from db
+
+export const getReviewsAction = () => async (dispatch) => {
+  try {
+    const q = query(collection(db, "reviews"));
+
+    const querySnapshot = await getDocs(q);
+    let reviews = [];
+
+    querySnapshot.forEach((doc) => {
+      const { id } = doc;
+
+      const data = { ...doc.data(), id };
+      reviews.push(data);
+    });
+
+    console.log(reviews);
+    dispatch(setReviews(reviews));
   } catch (error) {
     toast.error(error.message);
   }

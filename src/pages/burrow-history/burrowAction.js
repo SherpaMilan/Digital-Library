@@ -1,4 +1,3 @@
-import { async } from "@firebase/util";
 import {
   collection,
   doc,
@@ -31,24 +30,30 @@ export const getBurrowsAction = (userId) => async (dispatch) => {
   }
 };
 
-export const returnBookAction = (obj) => async (dispatch) => {
+export const returenBookAction = (obj) => async (dispatch) => {
   try {
-    // declarning the object from firebase burrowing table
     const updatingObj = {
       returned: true,
       retureAt: Date.now(),
     };
-    //update borrowing table based on borrowing ID
+
+    //update burrowing table basedon burrowing ID
+    // await db.collection("burrowing").doc(obj.id).update(updatingObj);
 
     await updateDoc(doc(db, "burrowing", obj.id), updatingObj);
 
-    toast.success("book updated successfully");
-    //update book table based on book Id
+    // update book table based on book Id
     const bookUpdate = {
       available: true,
       availableFrom: Date.now(),
     };
+
+    // await db.collection("books").doc(obj.bookId).update(bookUpdate);
+
     await updateDoc(doc(db, "books", obj.bookId), bookUpdate);
+
+    toast.success("You have reurned the book successfully");
+    // re fetch the data
   } catch (error) {
     toast.error(error.message);
   }

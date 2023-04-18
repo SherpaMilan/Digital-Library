@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   books: [],
   selectedBook: {},
+  reviews: [],
 };
 const bookSlice = createSlice({
   name: "book",
@@ -18,11 +19,15 @@ const bookSlice = createSlice({
     setSelectedBook: (state, { payload }) => {
       state.selectedBook = state.books.find((item) => item.id === payload);
     },
+
+    setReviews: (state, { payload }) => {
+      state.reviews = payload;
+    },
   },
 });
 
 const { reducer, actions } = bookSlice;
 
-export const { getBookSuccess, setSelectedBook } = actions;
+export const { getBookSuccess, setSelectedBook, setReviews } = actions;
 
 export default reducer;
